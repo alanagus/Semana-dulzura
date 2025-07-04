@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Semana de la Dulzura 🍬</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Quicksand&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: #fff4fa;
+      color: #333;
+      padding: 2em;
+      text-align: center;
+    }
+    h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.5em;
+      color: #e91e63;
+    }
+    .day-counter {
+      font-size: 1.3em;
+      margin-top: 0.5em;
+      color: #555;
+    }
+    .message {
+      font-size: 1.2em;
+      margin: 2em auto;
+      background: #fff;
+      padding: 1.5em;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      max-width: 600px;
+    }
+    .progress {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1em;
+      margin: 2em auto;
+      max-width: 700px;
+    }
+    .day-box {
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      padding: 1em;
+      font-weight: bold;
+      background: #f8f8f8;
+    }
+    .completed {
+      color: green;
+      border-color: green;
+      text-decoration: line-through;
+    }
+    .current {
+      color: #e91e63;
+      border-color: #e91e63;
+      background: #ffe6ef;
+    }
+    .locked {
+      color: #aaa;
+      border-color: #aaa;
+      background: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Para mi caneloncito 🍮</h1>
+  <div class="day-counter" id="day-count">Semana de la Dulzura</div>
+
+  <div class="message" id="message"></div>
+
+  <div class="progress" id="progress"></div>
+
+  <script>
+    const frases = [
+      "Mi amor, como este caramelo, tu dulzura fue lo primero que me atrapó. Esta Semana recién empieza… y ya me tenés completamente derretido por vos. 💖",
+      "El chocolate es intenso, irresistible y siempre me hace bien. Gracias por ser mi pedacito de cielo en cada día. 🍫✨",
+      "Como un Bon o Bon, sos el clásico que nunca falla. Siempre estás ahí, dulce, única… y perfecta para mí. Te elegiría una y mil veces. 💗",
+      "Si fueras una galletita, serías esa que nadie quiere compartir. Crujiente por fuera, tierna por dentro. Y completamente mía. 💕",
+      "Sos la mezcla perfecta: la pasión de la frutilla y el calor del chocolate. Una explosión de amor que no cambio por nada. 💘",
+      "Cada flor del ramo representa un motivo por el que te amo… y todavía me quedo corto. Gracias por ser mi flor favorita en este jardín que es la vida. 🌷💕",
+      "Llegamos al último día de la Semana de la Dulzura, pero con vos no hay final. Sos el amor de mi vida, y esto… apenas comienza. Te amo. 🫶"
+    ];
+
+    const primerAcceso = localStorage.getItem('primerAcceso');
+    let diaInicio;
+    if (primerAcceso) {
+      diaInicio = new Date(primerAcceso);
+    } else {
+      diaInicio = new Date();
+      localStorage.setItem('primerAcceso', diaInicio.toISOString());
+    }
+
+    const hoy = new Date();
+    const diffTime = hoy - diaInicio;
+    const diffDias = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    const index = Math.min(diffDias, frases.length - 1);
+
+    document.getElementById('message').innerText = frases[index];
+    document.getElementById('day-count').innerText = `Día ${index + 1} de la Semana de la Dulzura`;
+
+    // Crear progreso visual
+    const progressContainer = document.getElementById('progress');
+    for (let i = 0; i < frases.length; i++) {
+      const box = document.createElement('div');
+      box.classList.add('day-box');
+      if (i < index) {
+        box.classList.add('completed');
+        box.innerText = `✔️ Día ${i + 1}`;
+      } else if (i === index) {
+        box.classList.add('current');
+        box.innerText = `⭐ Día ${i + 1}`;
+      } else {
+        box.classList.add('locked');
+        box.innerText = `🔒 Día ${i + 1}`;
+      }
+      progressContainer.appendChild(box);
+    }
+  </script>
+</body>
+</html>
